@@ -61,7 +61,10 @@ def get_project(db, id):
     Returns: dict
         All project data for the specified project, or None.
     """
-    pass
+    for project in db:
+        if project["project_no"] == id:
+            return project
+    return None
 
 def search(db, sort_by=u'start_date', sort_order=u'desc', 
         techniques=None, search=None, search_fields=None):
