@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import json
+
 """
 Module: data
 Documentation: http://www.ida.liu.se/~TDP003/portfolio-api/
@@ -30,7 +32,8 @@ def load(filename):
     Returns: list 
         All the project data from the read file, or None.
     """
-    pass
+    with open(filename) as f:
+        return json.load(f)
 
 def get_project_count(db):
     """
