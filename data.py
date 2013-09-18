@@ -47,7 +47,7 @@ def get_project_count(db):
     Returns: number
         The number of projects in the list.
     """
-    pass 
+    return len(db)
 
 def get_project(db, id):
     """ 
