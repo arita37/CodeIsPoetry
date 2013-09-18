@@ -32,8 +32,11 @@ def load(filename):
     Returns: list 
         All the project data from the read file, or None.
     """
-    with open(filename) as f:
-        return json.load(f)
+    try:
+        with open(filename) as f:
+            return json.load(f)
+    except:
+        return None
 
 def get_project_count(db):
     """
