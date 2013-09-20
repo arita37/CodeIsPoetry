@@ -92,7 +92,11 @@ def get_techniques(db):
     Returns: list
         A alphabetically sorted list containing the names of all techniques in db.
     """
-    pass
+    tech_list = []
+    for project in db:
+        for tech in project["techniques_used"]:
+            tech_list.append(tech)
+    return sorted(list(set(tech_list)))
 
 def get_technique_stats(db):
     """
@@ -109,4 +113,13 @@ def get_technique_stats(db):
     db (list) - A list as returned by load.
     Returns: dict
     """
-    pass
+    tech_list = get_techniques(db)
+    tech_stats_dict = { tech:[] for tech in tech_list }
+    for project in db:
+        for tech in tech_list:
+            if tech in project["techniques_used"]:
+                tech_stats_dict[tech].append(
+                        {"id": project["project_no"]
+                        , "name": project["project_name"]
+                        })
+    return tech_stats_dict
