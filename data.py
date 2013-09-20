@@ -81,27 +81,32 @@ def search(db, sort_by=u'start_date', sort_order=u'desc',
     Returns: list
         A list containing dictionaries for all the projects conforming to the specified search criteria.
     """
-    db = db.copy()
-    # Techniques: - Remove those that do not have all techniques:
+    # Techniques: - Add those who have all techniques:
     if techniques is not None and techniques:
-        for tech in techniques:
-            for project in db:
+        new_db = []
+        for project in db:
+            add_tech = True
+            for tech in techniques:
                 if tech not in project["techniques_used"]:
-                    db.remove(project)
-    """
+                    add_tech = False
+                    break
+            if add_tech: new_db.append(project)
+        db = new_db
+
     # Search fields:
-    list_of_results = []
-    if search_fields is not None:
-        if not search_fields: 
+    if search is not None:
+        new_db = []
+        if search_fields is not None and not search_fields:
             return []
         else:
-            for num, project in enumerate(db):
-                for key in project:
-                    if project[key] == -1:
-                        pass # Not found
-    else:
-        pass # Search for ALL fields in project
-        """
+            fields_to_search = search_fields if search_fields else db[0].keys()
+            for field in fields_to_search:
+                for project in db:
+                    # Only searches strings:
+                    if type(project[field]) is str and project[field].find(search) != -1:
+                        new_db.append(project)
+                        break
+        db = new_db
 
     return db
 
