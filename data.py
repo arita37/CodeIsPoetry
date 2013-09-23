@@ -94,6 +94,12 @@ def search(db, sort_by='start_date', sort_order='desc',
         db = new_db
 
     # Search fields:
+    def local_find(search_string, string_to_search_in):
+        if type(string_to_search_in) is str:
+            if search_string.lower() in string_to_search_in.lower():
+                return True
+        return False
+
     if search is not None:
         new_db = []
         if search_fields is not None and not search_fields:
@@ -102,15 +108,17 @@ def search(db, sort_by='start_date', sort_order='desc',
             fields_to_search = search_fields if search_fields else db[0].keys()
             for field in fields_to_search:
                 for project in db:
-                    if type(project[field]) is str and project[field].find(search) != -1:
+                    if local_find(search, project[field]):
                         if project not in new_db:
                             new_db.append(project)
         db = new_db
 
     # Sort by and sort order:
-    if sort_by not in db[0].keys():
+    if not db:
+        return []
+    elif sort_by not in db[0].keys():
         return None
-    if sort_order == "asc":
+    elif sort_order == "asc":
         db.sort(key=lambda x: x[sort_by])
     elif sort_order == "desc":
         db.sort(key=lambda x: x[sort_by], reverse=True)
