@@ -66,7 +66,7 @@ def get_project(db, id):
             return project
     return None
 
-def search(db, sort_by=u'start_date', sort_order=u'desc', 
+def search(db, sort_by='start_date', sort_order='desc', 
         techniques=None, search=None, search_fields=None):
     """ 
     Fetches and sorts projects matching criteria from the specified list.
@@ -102,11 +102,20 @@ def search(db, sort_by=u'start_date', sort_order=u'desc',
             fields_to_search = search_fields if search_fields else db[0].keys()
             for field in fields_to_search:
                 for project in db:
-                    # Only searches strings:
                     if type(project[field]) is str and project[field].find(search) != -1:
-                        new_db.append(project)
-                        break
+                        if project not in new_db:
+                            new_db.append(project)
         db = new_db
+
+    # Sort by and sort order:
+    if sort_by not in db[0].keys():
+        return None
+    if sort_order == "asc":
+        db.sort(key=lambda x: x[sort_by])
+    elif sort_order == "desc":
+        db.sort(key=lambda x: x[sort_by], reverse=True)
+    else:
+        return None
 
     return db
 
