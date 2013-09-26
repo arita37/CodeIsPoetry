@@ -142,6 +142,8 @@ def get_techniques(db):
             tech_list.append(tech)
     return sorted(list(set(tech_list)))
 
+# >>> sorted(list(set(itertools.chain(*[ project["techniques_used"] for project in db ]))))
+
 def get_technique_stats(db):
     """
     Collects and returns statistics for all techniques in the specified project list.
