@@ -1,0 +1,38 @@
+{% extends "layout.html" %} 
+{% block style %}
+@import url(http://fonts.googleapis.com/css?family=Berkshire+Swash|Open+Sans:400,700,800,300);
+
+body {
+	font-size: 100%; 
+	font-family: 'Open Sans', Arial, sans-serif;
+	line-height: 100%;
+	}
+	
+h1 {
+	font-family: 'Berkshire Swash', Georgia, serif;
+	font-size: 400%;
+	line-height: 100%; 
+	}
+	
+h2, h3, h4 {
+	font-family: 'Droid Sans', Arial, sans-serif;
+	margin: 10px 0;
+	}
+	
+ul.main-menu-list {
+	background: #111;
+	list-style-type: none; }
+	
+ul.main-menu-list li {
+	float: left; }
+	
+ul.main-menu-list li a {
+	color: #fff;
+	text-transform: uppercase;
+	padding: 10px 20px; 
+	display: block; }
+	
+ul.main-menu-list li a:hover {
+	color: #ccff00; }
+	
+{% endblock %}
