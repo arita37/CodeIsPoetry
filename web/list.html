@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section id="project-list">
+	<div class="container">
+	
+	<h1>Våra projekt</h1>
+	<div class="intro">Alla studieprojekt av Olle Kvarnström och Maija Vilkina. <br/>
+	Än så länge har vi skapat {{ count }} projekt tillsammans.</div>
+		
+	{% for project in data %}
+		
+	<div class="row">
+    		<div class="span4">
+				<a href="#">
+				<div class="project-thumbnail">
+				<img src="{{ url_for('static', filename=project.small_image) }}" alt="sillypic">
+				</div>
+				</a>
+			</div>
+			<div class="span8">
+				<a href="/project/{{ project.project_no }}"><h3>{{ project.project_name }}</h3></a>
+				<p>{{ project['short_description'] }}</p>
+				<p><b>Teknologi: </b>{% for tech in project.techniques_used %}{% if loop.last %} {{ tech|title }} {% else %} {{ tech|title }}, {% endif %} {% endfor %} </p>
+				<div class="description"><b>Kurs: </b>{{ project['course_id'] }} {{ project['course_name'] }}</div>
+			</div>
+	</div>
+
+    {% endfor %} 
+        
+	</div>
+</section> 
+     
+{% endblock %} 

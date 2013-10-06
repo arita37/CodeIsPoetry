@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section id="project-list">
+	<div class="container">
+	
+	<h1>Du sökte efter Python</h1>
+	<div class="intro">Här är sökresultat enligt din förfrågan</div>
+		
+	<div class="row">
+	{% for project in data %}
+	<div class="span4">
+	<a href="#"><div class="project-thumbnail">
+		<img src="sillypic.jpg" alt="sillypic">
+	</div></a>
+	</div>
+	<div class="span8">
+	<a href="#"><h3>Hemsida för våra projekt</h3></a>
+	<p> Den här är vår första hemsida, så have mercy</p>
+	<p><b>Teknologi: </b>Python</p>
+	</div>
+	{% endfor %}
+	</div>
+
+</div>     
+	</div>
+</section> 
+     
+{% endblock %} 

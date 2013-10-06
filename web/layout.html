@@ -3,34 +3,38 @@
 <head>
 <title>Projektarkiv</title>
 <meta charset="utf-8">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"></head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
 
 <body>
 <header class="main-menu">
+	<div class="container">
 	 <nav>
 		<ul class="main-menu-list">
-		<li><a href="/">Home</a></li>
+		<li id="menu-home"><a href="/">Home</a></li>
 		<li><a href="/list">Projektlista</a></li>
-		<li><a href="/tech">Teknologier</a></li>
+		<li><a href="/techniques">Teknologier</a></li>
 		</ul>
 	 </nav>
 	 
 	 <div id="search">
 		  <form method="POST" action="search"> 
-		  Search: <input name="key" type="text" placeholder="Sök"/><br>
+		  <input name="key" type="text" placeholder="Sök"/>
 		  <input type="submit" value="Sök" />
 		  </form>
 	 </div>
+	 
+	 </div>
 </header>
 
-<section class="main-content">
 
 	 {% block content %} {% endblock %}
-
-</section>    
+ 
 
 <footer class="main-footer">
+	<div class="container">
 	© 2013 Olle Kvarnström, Maija Vilkina
+	</div>
 </footer>
 
 </body>

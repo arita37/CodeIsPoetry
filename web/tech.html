@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section id="tech-list">
+	<div class="container">
+	
+	<h1>Wut Python?</h1>
+	<div class="intro">Varje dag blir vi lite bättre på att använda olika språk och platformer för att lösa problem. Nedan hittar du alla teknologier vi har använt i våra projekt.</div>
+	
+	{% for tech in techs %}
+	
+	<h4>{{ tech }}</h4>
+	
+	{% for project in data %}
+	{% for technique in project.techniques_used %}
+	{% if technique == tech %}
+    		<div class="row">
+    			<div class="description"><b>Projekt ID: </b>{{ project.project_no }}</div>
+    			<a href="/project/{{ project.project_no }}"><h3>{{ project['project_name'] }}</h3></a>
+				<p>{{ project['short_description'] }}</p>
+			</div>
+	{% else %}
+	{% endif %}
+	{% endfor %} {% endfor %}
+	{% endfor %}
+
+
+</div>     
+	</div>
+</section> 
+     
+{% endblock %} 

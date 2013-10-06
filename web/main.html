@@ -1,8 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h1>Python is our slave</h1>
-     
-     
+<section id="main-content">
+	<div class="container">
+	
+<div class="row" id="herounit">
+<div class="span5">
+	<h1>Code is poetry</h1>
+	<div class="intro">En hemsida för studieprojekt av Olle Kvarnström och Maija Vilkina</div>
+</div>
+
+<div class="span7">
+
+</div>
+
+</div>
+
+	</div>
+</section>   
+
+
+<section id="home-projectlist">
+	<div class="container">
+	<h4>Våra projekt</h4>
+		<div class="row">
+		{% for project in data %}
+			<div class="span4">
+				<a href="/project/{{ project.project_no }}">
+				<div class="project-thumbnail">
+				<img src="{{ url_for('static', filename=project.small_image) }}" alt="sillypic">
+				</div>
+				</a>
+				<a href="/project/{{ project.project_no }}"><h3>{{ project['project_name'] }}</h3></a>
+				<p><b>Teknologi: </b>{% for tech in project.techniques_used %}{% if loop.last %} {{ tech|title }} {% else %} {{ tech|title }}, {% endif %} {% endfor %} </p>
+			</div>
+		{% endfor %} 
+		</div>     
+	</div>
+</section> 
      
 {% endblock %} 
