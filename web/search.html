@@ -5,17 +5,23 @@
 	<div class="container">
 	
 	<h1>Du sökte efter {{ term }}</h1>
+	<div class="search-parameters">
+	<b>I fält:</b> {{  fields|replace("['", "")|replace("']", "")|replace("_", " ")|replace("[]", "alla")|title }} <br/>
+	<b>Med teknologi:</b> {{ techs|default('alla')|replace("['", "")|replace("']", "")|replace("[]", "alla")|title }} <br/>
+	<b>Sortera resultat efter fält:</b> {{ sortby|default('Project no')|replace("_", " ")|title }}<br/>
+	<b>Sorteringsordning:</b> {{ sort|default('desc')|title }} 
+	</div>
+	
 	{% if data %}
 
 	<div class="intro">Vi hittade {{ count }} projekt enligt din förfrågan</div>
 		
-	<div class="row">
 	{% for project in data %}
 		<div class="row">
     		<div class="span4">
 				<a href="#">
 				<div class="project-thumbnail">
-				<img src="{{ url_for('static', filename=project.small_image) }}" alt="sillypic">
+				<a href="/project/{{ project.project_no }}"><img src="{{ url_for('static', filename=project.small_image) }}" alt="sillypic"/></a>
 				</div>
 				</a>
 			</div>
@@ -28,7 +34,6 @@
 	</div>
 	
 	{% endfor %}
-	</div>
 	
 	{% else %}
 	

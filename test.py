@@ -41,24 +41,59 @@ def project_single(id):
     """
     single_project = data.get_project(appdata, id)
     return render_template("single.html", data=single_project)
+
+@app.route("/searchform")
+def search_form():
+    """ 
+    Returns a page with search form with all the available search options
+    """
+    techniques = data.get_technique_stats(appdata)
+    return render_template("searchform.html", data=appdata, techs=techniques)
     
 @app.route("/search", methods=['POST'])
 def search_results():
     """
-    Sanitizes the search string, counts objects in search results and returns search results page. 
+    Sanitizes the search string, counts objects in search results and returns search results page. , sort_order=request.form['sort'], search_fields=fields, techniques=request.form['techfield']
     """
     sanitized_search = re.sub('[^a-zA-Z0-9\n\.]', ' ', request.form['key'])
-    search_function = data.search(appdata, search=sanitized_search)
+    techs = request.form.getlist('techfield')
+    if techs:
+        technologies = techs
+    else:
+        technologies = ''
+    fields = request.form.getlist('search_field')
+    if fields:
+        search_fields = fields
+    else:
+        search_fields = None
+    sortby = request.form.get('sort_field', 'start_date')
+    sort_order = request.form.get('sort', 'desc')
+        
+    search_function = data.search(appdata, sort_order=sort_order, sort_by=sortby, techniques=technologies, search=sanitized_search, search_fields=search_fields)
     results_count = len(search_function)
-    return render_template("search.html", data=search_function, count=results_count, term=sanitized_search)
-
-
+    return render_template("search.html", data=search_function, count=results_count, term=sanitized_search, fields=fields, techs=techs, sort=sort_order, sortby=sortby)
+    
 @app.errorhandler(404)
 def page_not_found(error):
     """
     Returns a user friendly message if the requested page was not found on the server.
     """
     return render_template('404.html'), 404
+    
+@app.errorhandler(400)
+def bad_request(error):
+    """
+    Returns a user friendly message if a bad request occured.
+    """
+    return render_template('400.html'), 400
+    
+@app.errorhandler(500)
+def other(error):
+    """
+    Returns a user friendly message if server error occured.
+    """
+    return render_template('error.html'), 500
+
 
 if __name__ == "__main__":
     app.run()
