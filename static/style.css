@@ -132,11 +132,15 @@ ul.main-menu-list li#menu-home a {
 #search {
     padding: 10px 0;
     float: right;
-    width: 30%; }
+    width: 50%; }
+
+form {
+    float: left;
+    width: 80%; }
 
 input[type="text"] {
     height: 30px;
-    width: 60%;
+    width: 70%;
     border-radius: 3px;
     border: 0px;
     font-size: 90%;
@@ -155,6 +159,16 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background: #666;
     cursor: pointer; }
+
+.advanced {
+    float: left;
+    width: 15%;
+    color: #fff;
+    font-size: 12px;
+    text-align: center; }
+
+.advanced:hover {
+    color: #f7da98; }
 
 
 
@@ -204,6 +218,9 @@ input[type="submit"]:hover {
 section#project-list div.row {
     border-top: 1px solid #eaeaea;
     padding: 20px 0; }
+
+section#tech-list h4 {
+    margin-top: 30px; }
 
 
 

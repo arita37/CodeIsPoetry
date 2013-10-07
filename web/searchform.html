@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section id="project-list">
+	<div class="container">
+	<div id="advanced_searchform">
+		<form method="POST" action="search"> 
+		  <input name="key" type="text" placeholder="Sök"/>
+		  <input name="sort" type="radio" value="ASC"/>Sortera stigande<br/>
+		  <input name="sort" type="radio" value="DESC"/>Sortera fallande
+		  <input type="submit" value="Sök" />
+		  </form>
+	</div>
+		
+
+	</div>
+</section> 
+     
+{% endblock %} 

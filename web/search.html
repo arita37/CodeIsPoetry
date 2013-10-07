@@ -4,25 +4,39 @@
 <section id="project-list">
 	<div class="container">
 	
-	<h1>Du sökte efter Python</h1>
-	<div class="intro">Här är sökresultat enligt din förfrågan</div>
+	<h1>Du sökte efter {{ term }}</h1>
+	{% if data %}
+
+	<div class="intro">Vi hittade {{ count }} projekt enligt din förfrågan</div>
 		
 	<div class="row">
 	{% for project in data %}
-	<div class="span4">
-	<a href="#"><div class="project-thumbnail">
-		<img src="sillypic.jpg" alt="sillypic">
-	</div></a>
+		<div class="row">
+    		<div class="span4">
+				<a href="#">
+				<div class="project-thumbnail">
+				<img src="{{ url_for('static', filename=project.small_image) }}" alt="sillypic">
+				</div>
+				</a>
+			</div>
+			<div class="span8">
+				<a href="/project/{{ project.project_no }}"><h3>{{ project.project_name }}</h3></a>
+				<p>{{ project['short_description'] }}</p>
+				<p><b>Teknologi: </b>{% for tech in project.techniques_used %}{% if loop.last %} {{ tech|title }} {% else %} {{ tech|title }}, {% endif %} {% endfor %} </p>
+				<div class="description"><b>Kurs: </b>{{ project['course_id'] }} {{ project['course_name'] }}</div>
+			</div>
 	</div>
-	<div class="span8">
-	<a href="#"><h3>Hemsida för våra projekt</h3></a>
-	<p> Den här är vår första hemsida, så have mercy</p>
-	<p><b>Teknologi: </b>Python</p>
-	</div>
+	
 	{% endfor %}
 	</div>
+	
+	{% else %}
+	
+		<h2>Tyvärr!</h2>
+	<div class="intro">Vi hittade inga resultat som motsvarar din förfrågan</div>
+	
+{% endif %}
 
-</div>     
 	</div>
 </section> 
      

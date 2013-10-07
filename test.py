@@ -1,5 +1,6 @@
 import os
-from flask import Flask, url_for, render_template
+import re
+from flask import Flask, url_for, render_template, request
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'web')
 import data
 
@@ -30,8 +31,8 @@ def project_tech():
     Returns a list of techniques we have used on the website, address "/techniques".
     Each technique also lists projects where the technique was used.
     """
-    techniques = data.get_techniques(appdata)
-    return render_template("tech.html", techs=techniques, data=appdata)
+    techniques = data.get_technique_stats(appdata)
+    return render_template("tech.html", techs=techniques)
     
 @app.route("/project/<int:id>")
 def project_single(id):
@@ -44,10 +45,12 @@ def project_single(id):
 @app.route("/search", methods=['POST'])
 def search_results():
     """
-    Returns search results page.
+    Sanitizes the search string, counts objects in search results and returns search results page. 
     """
-    search_function = data.search(appdata)
-    return render_template("search.html", data=search_function)
+    sanitized_search = re.sub('[^a-zA-Z0-9\n\.]', ' ', request.form['key'])
+    search_function = data.search(appdata, search=sanitized_search)
+    results_count = len(search_function)
+    return render_template("search.html", data=search_function, count=results_count, term=sanitized_search)
 
 
 @app.errorhandler(404)
