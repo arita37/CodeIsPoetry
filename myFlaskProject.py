@@ -10,7 +10,7 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
 
 app = Flask(__name__, template_folder=tmpl_dir)
-#app.debug = True
+app.debug = True
 
 appdata = data.load("data.json")
 
@@ -59,7 +59,7 @@ def search_results():
     """
     Sanitizes the search string, counts objects in search results and returns search results page. , sort_order=request.form['sort'], search_fields=fields, techniques=request.form['techfield']
     """
-    sanitized_search = re.sub('[^a-zA-Z0-9\n\.]', ' ', request.form['key'])
+    sanitized_search = re.sub('[^a-zA-Z0-9\.]', ' ', request.form['key'])
     techs = request.form.getlist('techfield')
     if techs:
         technologies = techs
