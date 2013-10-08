@@ -28,7 +28,7 @@
 			<div class="span4">
 				<a href="/project/{{ project.project_no }}">
 				<div class="project-thumbnail">
-				<img src="{{ url_for('images', filename=project.small_image) }}" alt="project image">
+				<img src="{{ url_for('static', filename=project.small_image) }}" alt="project image">
 				</div>
 				</a>
 				<a href="/project/{{ project.project_no }}"><h3>{{ project['project_name'] }}</h3></a>

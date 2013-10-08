@@ -4,7 +4,7 @@
 <section id="project-single">
 	<div class="container">
 	<div class="project-fullsize">
-		<img src="{{ url_for('images', filename=data.big_image) }}" alt="project image large">
+		<img src="{{ url_for('static', filename=data.big_image) }}" alt="project image large">
 	</div>
 	<h2>{{ data.project_name }}</h2>
 	<div class="intro">{{ data.short_description }}</div>
