@@ -8,10 +8,10 @@ from flask import Flask, url_for, render_template, request
 import data
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
 
-app = Flask(__name__, template_folder=tmpl_dir, static_folder=static_dir, static_url_path="/images")
+app = Flask(__name__, template_folder=tmpl_dir, static_folder=static_dir)
 #app.debug = True
 
 
