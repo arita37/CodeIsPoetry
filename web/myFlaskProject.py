@@ -7,13 +7,15 @@ from flask import Flask, url_for, render_template, request
 
 import data
 
-tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+def static_dir(): return os.path.dirname(os.path.abspath(__file__))
+def tmpl_dir(): return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
+def main():
+    """ Main loop """
+    #app.debug = True
+    app.run(host="0.0.0.0")
 
-app = Flask(__name__, template_folder=tmpl_dir, static_folder=static_dir)
-#app.debug = True
-
+app = Flask(__name__, template_folder=tmpl_dir(), static_folder=static_dir())
 
 @app.route("/")
 def main_page():
@@ -104,4 +106,4 @@ def other(error):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    main()
