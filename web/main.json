@@ -1,0 +1,11 @@
+[
+  {
+  	"main_headline": "Code is poetry",
+  	"main_description": "En hemsida för studieprojekt av Olle Kvarnström och Maija Vilkina",
+  	"footer": "© 2013 Olle Kvarnström, Maija Vilkina",
+    "projects_headline": "Våra projekt",
+    "projects_description": "Alla studieprojekt av Olle Kvarnström och Maija Vilkina.",
+    "techs_headline": "Wut Python?",
+    "techs_description": "Varje dag blir vi lite bättre på att använda olika språk och platformer för att lösa problem. Nedan hittar du alla teknologier vi har använt i våra projekt."
+  }
+]

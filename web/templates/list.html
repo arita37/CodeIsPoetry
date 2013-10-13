@@ -4,9 +4,9 @@
 <section id="project-list">
 	<div class="container">
 	
-	<h1>Våra projekt</h1>
-	<div class="intro">Alla studieprojekt av Olle Kvarnström och Maija Vilkina. <br/>
-	Än så länge har vi skapat {{ count }} projekt tillsammans.</div>
+	<h1>{{ info.projects_headline }}</h1>
+	<div class="intro">{{ info.projects_description }} <br/>
+	Det finns {{ count }} projekt i portföljen.</div>
 		
 	{% for project in data %}
 		

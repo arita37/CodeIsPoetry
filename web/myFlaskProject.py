@@ -22,7 +22,7 @@ def main_page():
     """
     Returns main page of the website, address "/"
     """
-    return render_template("main.html", data=data.load("data.json"))
+    return render_template("main.html", data=data.load("data.json"), info=data.load("main.json"))
     
 @app.route("/list")
 def project_list():
@@ -31,7 +31,7 @@ def project_list():
     """
     appdata = data.load("data.json")
     project_count = data.get_project_count(appdata)
-    return render_template("list.html", data=appdata, count=project_count)
+    return render_template("list.html", data=appdata, count=project_count, info=data.load("main.json"))
     
 @app.route("/techniques")
 def project_tech():
@@ -39,7 +39,7 @@ def project_tech():
     Returns a list of techniques we have used on the website, address "/techniques".
     Each technique also lists projects where the technique was used.
     """
-    techniques = data.get_technique_stats(data.load("data.json"))
+    techniques = data.get_technique_stats(data.load("data.json"), info=data.load("main.json"))
     return render_template("tech.html", techs=techniques)
     
 @app.route("/project/<int:id>")
