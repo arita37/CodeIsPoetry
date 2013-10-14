@@ -16,8 +16,19 @@ import data
 
 def static_dir(): return os.path.dirname(os.path.abspath(__file__))
 def tmpl_dir(): return os.path.join(static_dir(), 'templates')
-def load_data(): return data.load(os.path.join(static_dir(), "data.json"))
-def load_main(): return data.load(os.path.join(static_dir(), "main.json"))
+
+def load_data(cache=[None, 0]): 
+    mtime = os.path.getmtime(os.path.join(static_dir(), "data.json"))
+    if mtime != cache[1]:
+        cache[1] = mtime
+        cache[0] = data.load(os.path.join(static_dir(), "data.json"))
+    return cache[0]
+def load_main(cache=[None, 0]): 
+    mtime = os.path.getmtime(os.path.join(static_dir(), "main.json"))
+    if mtime != cache[1]:
+        cache[1] = mtime
+        cache[0] = data.load(os.path.join(static_dir(), "main.json"))
+    return cache[0]
 
 def main():
     """ Main """
@@ -67,17 +78,13 @@ app = Flask(__name__, template_folder=tmpl_dir(), static_folder=static_dir())
 
 @app.route("/")
 def main_page():
-    """
-    Returns main page of the website, address "/"
-    """
+    """ Returns main page of the website """
     return render_template("main.html", data=load_data(),
                             info=load_main())
     
 @app.route("/list")
 def project_list():
-    """
-    Returns a list of projects on the website, address "/list"
-    """
+    """ Returns a list of projects on the website """
     appdata = load_data()
     project_count = data.get_project_count(appdata)
     return render_template("list.html", data=appdata, 
@@ -87,7 +94,6 @@ def project_list():
 def project_tech():
     """
     Returns a list of techniques we have used on the website, 
-    address "/techniques".
     Each technique also lists projects where the technique was used.
     """
     techniques = data.get_technique_stats(load_data())
@@ -96,32 +102,24 @@ def project_tech():
     
 @app.route("/project/<int:id>")
 def project_single(id):
-    """
-    Returns a page with description for a single project, 
-    adress "/project/<project_id>".
-    """
+    """ Returns a page with description for a single project """
     single_project = data.get_project(load_data(), id)
-    return render_template("single.html", data=single_project)
+    return render_template("single.html", data=single_project,
+                            info=load_main())
 
 @app.route("/searchform")
 def search_form():
-    """ 
-    Returns a page with search form with all the available search options
-    """
+    """ Returns a page with search form with all the available search options """
     appdata = load_data()
     techniques = data.get_technique_stats(appdata)
-    info_json = load_main()
     return render_template("searchform.html", data=appdata, 
-                            techs=techniques, info=info_json)
+                            techs=techniques, info=load_main())
     
 @app.route("/search", methods=['POST'])
 def search_results():
     """
     Sanitizes the search string, 
     counts objects in search results and returns search results page. 
-    sort_order=request.form['sort'], 
-    search_fields=fields, 
-    techniques=request.form['techfield']
     """
     appdata = load_data()
     sanitized_search = re.sub('[^a-zA-Z0-9\.]', "", request.form['key'])
@@ -144,26 +142,18 @@ def search_results():
     
 @app.errorhandler(404)
 def page_not_found(error):
-    """
-    Returns a user friendly message if 
-    the requested page was not found on the server.
-    """
-    return render_template('404.html'), 404
+    """ Page not found """
+    return render_template('404.html', info=load_main()), 404
     
 @app.errorhandler(400)
 def bad_request(error):
-    """
-    Returns a user friendly message if a bad request occured.
-    """
-    return render_template('400.html'), 400
+    """ Bad request """
+    return render_template('400.html', info=load_main()), 400
     
 @app.errorhandler(500)
 def other(error):
-    """
-    Returns a user friendly message if server error occured.
-    """
-    return render_template('error.html'), 500
-
+    """ Server error occured """
+    return render_template('error.html', info=load_main()), 500
 
 if __name__ == "__main__":
     main()
