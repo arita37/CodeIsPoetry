@@ -16,6 +16,8 @@ import data
 
 def static_dir(): return os.path.dirname(os.path.abspath(__file__))
 def tmpl_dir(): return os.path.join(static_dir(), 'templates')
+def load_data(): return data.load(os.path.join(static_dir(), "data.json"))
+def load_main(): return data.load(os.path.join(static_dir(), "main.json"))
 
 def main():
     """ Main """
@@ -68,18 +70,18 @@ def main_page():
     """
     Returns main page of the website, address "/"
     """
-    return render_template("main.html", data=data.load("data.json"), 
-                            info=data.load("main.json"))
+    return render_template("main.html", data=load_data(),
+                            info=load_main())
     
 @app.route("/list")
 def project_list():
     """
     Returns a list of projects on the website, address "/list"
     """
-    appdata = data.load("data.json")
+    appdata = load_data()
     project_count = data.get_project_count(appdata)
     return render_template("list.html", data=appdata, 
-                            count=project_count, info=data.load("main.json"))
+                            count=project_count, info=load_main())
     
 @app.route("/techniques")
 def project_tech():
@@ -88,9 +90,9 @@ def project_tech():
     address "/techniques".
     Each technique also lists projects where the technique was used.
     """
-    techniques = data.get_technique_stats(data.load("data.json"))
+    techniques = data.get_technique_stats(load_data())
     return render_template("tech.html", techs=techniques, 
-                            info=data.load("main.json")) 
+                            info=load_main())
     
 @app.route("/project/<int:id>")
 def project_single(id):
@@ -98,7 +100,7 @@ def project_single(id):
     Returns a page with description for a single project, 
     adress "/project/<project_id>".
     """
-    single_project = data.get_project(data.load("data.json"), id)
+    single_project = data.get_project(load_data(), id)
     return render_template("single.html", data=single_project)
 
 @app.route("/searchform")
@@ -106,9 +108,9 @@ def search_form():
     """ 
     Returns a page with search form with all the available search options
     """
-    appdata = data.load("data.json")
+    appdata = load_data()
     techniques = data.get_technique_stats(appdata)
-    info_json = data.load("main.json")
+    info_json = load_main()
     return render_template("searchform.html", data=appdata, 
                             techs=techniques, info=info_json)
     
@@ -121,7 +123,7 @@ def search_results():
     search_fields=fields, 
     techniques=request.form['techfield']
     """
-    appdata = data.load("data.json")
+    appdata = load_data()
     sanitized_search = re.sub('[^a-zA-Z0-9\.]', "", request.form['key'])
     techs = request.form.getlist('techfield')
     technologies = techs if techs else ''
@@ -138,7 +140,7 @@ def search_results():
     return render_template("search.html", data=search_function, 
                             count=results_count, term=sanitized_search, 
                             fields=fields, techs=techs, sort=sort_order, 
-                            sortby=sortby, info=data.load("main.json"))
+                            sortby=sortby, info=load_main())
     
 @app.errorhandler(404)
 def page_not_found(error):
