@@ -39,8 +39,8 @@ def project_tech():
     Returns a list of techniques we have used on the website, address "/techniques".
     Each technique also lists projects where the technique was used.
     """
-    techniques = data.get_technique_stats(data.load("data.json"), info=data.load("main.json"))
-    return render_template("tech.html", techs=techniques)
+    techniques = data.get_technique_stats(data.load("data.json"))
+    return render_template("tech.html", techs=techniques, info=data.load("main.json")) 
     
 @app.route("/project/<int:id>")
 def project_single(id):
@@ -57,7 +57,8 @@ def search_form():
     """
     appdata = data.load("data.json")
     techniques = data.get_technique_stats(appdata)
-    return render_template("searchform.html", data=appdata, techs=techniques)
+    info_json = data.load("main.json")
+    return render_template("searchform.html", data=appdata, techs=techniques, info=info_json)
     
 @app.route("/search", methods=['POST'])
 def search_results():
