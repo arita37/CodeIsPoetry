@@ -5,7 +5,12 @@ import os
 import sys
 import re
 import signal
-from flask import Flask, url_for, render_template, request
+
+try:
+    from flask import Flask, url_for, render_template, request
+except:
+    print("Unable to import flask. Did you maybe forget to initialize venv?")
+    sys.exit()
 
 import data
 
