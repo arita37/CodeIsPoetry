@@ -20,43 +20,41 @@ def main():
         usage()
         return
 
-    if len(sys.argv) > 1:
+    if sys.argv[1] == "start":
+        print("Starting myFlaskProject")
 
-        if sys.argv[1] == "start":
-            print("Starting myFlaskProject")
+        # Start server on a fork:
+        pid = os.fork() 
+        if not pid: 
+            sys.stdout = sys.stderr = open(os.path.join(static_dir(), 
+                                            "../log"), 'a')
+            print("Start signal received")
+            app.run(host="0.0.0.0")
 
-            # Start server on a fork:
-            pid = os.fork() 
-            if not pid: 
-                sys.stdout = sys.stderr = open(os.path.join(static_dir(), 
-                                                "../log"), 'a')
-                print("Start signal received")
-                app.run(host="0.0.0.0")
+        # Save pid:
+        with open(os.path.join(static_dir(), "../pid"), 'w') as f:
+            print("%d" % pid, file=f)
 
-            # Save pid:
-            with open(os.path.join(static_dir(), "../pid"), 'w') as f:
-                print("%d" % pid, file=f)
+    elif sys.argv[1] == "stop":
+        print("Killing myFlaskProject")
+        with open(os.path.join(static_dir(), "../log"), 'a') as f:
+            print("Stop signal received", file=f)
 
-        elif sys.argv[1] == "stop":
-            print("Killing myFlaskProject") # to terminal
-            with open(os.path.join(static_dir(), "../log"), 'a') as f:
-                print("Stop signal received", file=f) # to log
-
-            # Kill pid in pidfile, then remove it:
-            try:
-                with open(os.path.join(static_dir(), "../pid"), 'r') as f:
-                    os.kill(int(f.read().strip()), signal.SIGTERM)
-                os.remove(os.path.join(static_dir(), "../pid"))
-            except BaseException as e:
-                print("Failed to kill process. Reason: %s" % str(e),
-                        "If it's still running, please kill it manually",
-                        sep="\n")
-                return
-            print("Done")
-                
-        else:
-            usage()
+        # Kill pid in pidfile, then remove it:
+        try:
+            with open(os.path.join(static_dir(), "../pid"), 'r') as f:
+                os.kill(int(f.read().strip()), signal.SIGTERM)
+            os.remove(os.path.join(static_dir(), "../pid"))
+        except BaseException as e:
+            print("Failed to kill process. Reason: %s" % str(e),
+                    "If it's still running, please kill it manually",
+                    sep="\n")
             return
+        print("Done")
+            
+    else:
+        usage()
+        return
 
 app = Flask(__name__, template_folder=tmpl_dir(), static_folder=static_dir())
 
