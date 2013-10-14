@@ -77,17 +77,11 @@ def search_results():
     techniques=request.form['techfield']
     """
     appdata = data.load("data.json")
-    sanitized_search = re.sub('[^a-zA-Z0-9\.]', ' ', request.form['key'])
+    sanitized_search = re.sub('[^a-zA-Z0-9\.]', "", request.form['key'])
     techs = request.form.getlist('techfield')
-    if techs:
-        technologies = techs
-    else:
-        technologies = ''
+    technologies = techs if techs else ''
     fields = request.form.getlist('search_field')
-    if fields:
-        search_fields = fields
-    else:
-        search_fields = None
+    search_fields = fields if fields else None
     sortby = request.form.get('sort_field', 'start_date')
     sort_order = request.form.get('sort', 'desc')
         
