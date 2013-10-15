@@ -32,7 +32,11 @@ Since we recommend running Flask inside virtualenv, we've included it in our ins
 ### Mac OS X
 *Step1: Installing Python and VirtualEnv**
 > Download and install Python from this [link](http://python.org/download/).
-> ???
+> Download and extract VirtualEnv, which can be found here: [link](https://pypi.python.org/pypi/virtualenv)
+> Open up a terminal (if you have not already) and navigate to the folder where you extracted VirtualEnv
+> Type the following and press enter
+> `sudo python3 setup.py install`
+> Now you have installed both Python And VirtualEnv. If you like you can remove the extracted folder.
 
 **Step 2: Fetch the newest myFlaskProject build**
 > Download the latest version of myFlaskProject through this [link](http://gitlab.ida.liu.se/ip-arbeten-2013/tdp003/repository/archive) (requires a valid LiU-ID).
