@@ -138,6 +138,9 @@ def search_results():
                                     search=sanitized_search,
                                     search_fields=search_fields)
     results_count = len(search_function)
+    print("Search details: sort_order=%s, sort_by=%s, techniques=%s, \
+search=%s, search_fields=%s" % (sort_order, sortby, str(technologies),
+                                sanitized_search, str(search_fields)))
     return render_template("search.html", data=search_function, 
                             count=results_count, term=sanitized_search, 
                             fields=fields, techs=techs, sort=sort_order, 
