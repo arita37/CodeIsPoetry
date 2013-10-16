@@ -17,7 +17,10 @@ import data
 def static_path(path=False): 
     """ Returns an absolute path to a file/folder in the project directory """
     if path:
-        return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
+        if type(path) == str:
+            return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
+        elif type(path) == list:
+            return os.path.join(os.path.dirname(os.path.abspath(__file__)),*path)
     return os.path.dirname(os.path.abspath(__file__))
 
 def data_json(cache=[None, 0]): 
@@ -46,27 +49,32 @@ def main():
     elif sys.argv[1] == "start":
         print("Starting myFlaskProject")
 
-        # Start server on a fork:
-        pid = os.fork() 
+        # Start server on a fork (only works on unixes)
+        if hasattr(os, "fork"):
+            pid = os.fork() 
+        else:
+            print("Server started. Please do not close this window!")
+            pid = False
+
         if not pid: 
-            sys.stdout = sys.stderr = open(static_path("../log"), 'a')
+            sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
             print("Start signal received")
             app.run(host="0.0.0.0")
 
         # Save pid:
-        with open(static_path("../pid"), 'w') as f:
+        with open(static_path(["..", "pid"]), 'w') as f:
             print("%d" % pid, file=f)
 
     elif sys.argv[1] == "stop":
         print("Killing myFlaskProject")
-        with open(static_path("../log"), 'a') as f:
+        with open(static_path(["..", "log"]), 'a') as f:
             print("Stop signal received", file=f)
 
         # Kill pid in pidfile, then remove it:
         try:
-            with open(static_path("../pid"), 'r') as f:
+            with open(static_path(["..", "pid"]), 'r') as f:
                 os.kill(int(f.read().strip()), signal.SIGTERM)
-            os.remove(static_path("../pid"))
+            os.remove(static_path(["..", "pid"]))
         except BaseException as e:
             print("Failed to kill process. Reason: %s" % str(e),
                     "If it's still running, please kill it manually",
