@@ -57,6 +57,15 @@ def main():
                   "\nIf this is a mistake, please remove the file named 'pid'",
                   "and try again")
             sys.exit(1)
+        
+        # If port is given, check if it's valid:
+        port = 80
+        if len(sys.argv) == 3:
+            try:
+                port = int(sys.argv[2])
+            except:
+                print("Port number is not valid!")
+                sys.exit(1)
 
         # Unixes will start server on a fork:
         if hasattr(os, "fork"):
@@ -69,7 +78,7 @@ def main():
         if not pid: 
             sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
             print("Start signal received")
-            app.run(host="0.0.0.0")
+            app.run(host="0.0.0.0", port=port)
 
         # Save pid:
         with open(static_path(["..", "pid"]), 'w') as f:
