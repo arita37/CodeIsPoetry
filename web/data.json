@@ -11,7 +11,9 @@
       "python", "flask", "jinja", "html5", "css3"
     ],
     "course_name": "Projekt: egna datormiljön",
-    "course_id": "TDP003"
+    "course_id": "TDP003",
+    "group_size": 2,
+    "course_points": 6
   },
   
     {
@@ -26,6 +28,8 @@
       "python"
     ],
     "course_name": "Imperativ programmering",
-    "course_id": "TDP002"
+    "course_id": "TDP002",
+    "group_size": 2,
+    "course_points": 6
   }
 ]
