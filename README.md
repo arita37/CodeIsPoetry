@@ -5,6 +5,8 @@ Olle & Maija Portfolio
 myFlaskProject is a template-based webserver created by Olle Kvarnström and Maija Vilkinia.
 Our goal is to provide a simple-to-use webserver for users who may not have much experience with HTML.
 
+Here follows technical instructions on installation, etc. If you are looking for the user manual, please see the doc folder.
+
 Installation
 ------------
 There are two dependencies for myFlaskProject: Python (version 3.3.2 or higher) and Flask.
@@ -69,14 +71,26 @@ Since we recommend running Flask inside virtualenv, we've included it in our ins
 > `pip install flask`
 
 ## Managing the application
-To start or stop the webserver you will first need to open up a terminal and navigate to the folder where you installed myFlaskProject.
-Now you will need to activate the virtual environment. You do this by running the following command:
-`. venv/bin/activate` (or `venv\scripts\activate` if using Windows)
-Now you can simply run the myFlaskProject.py and the start/stop argument. E.g:
+### Starting/Stopping the webserver
+In order to start or stop the webserver you will need to open up a terminal and nagivate to the folder where you installed myFlaskProject.
+Here you can type in one of the following commands and then press enter:
 `web/myFlaskProject.py start`
-`web/myFlaskProject.py stop`
+`web/myFlaskProject.py stop` (not available to windows)
 
-The application will create a log-file in the tdp003-directory, which will record all access to the webserver. If any errors happen they will be logged there as well.
+If you receive the following error message *Unable to import flask. Did you maybe forget to initialize venv?* you need to run this command and then try again:
+`. venv/bin/activate` (or `venv\scripts\activate` if using Windows)
+
+If you are using Linux or Mac OS X, the webserver will detach from your shell and run as a background process ("daemon").
+This means that you will be able to logout from your account and the webserver will continue running.
+However, if you are using windows, the webserver will run inside your terminal window. 
+This means that if you close the window or log out, the webserver will shut down as well.
+
+### User Manual
+Please see the doc folder for a user manual
+
+### Logging
+The application will create a "log"-file in the tdp003-directory, which will record all access to the webserver.
 Please do not modify the log-file while myFlaskProject is running, as doing so may cause it to stop logging and/or to shut down.
 
+### PID
 You may also notice a file named "pid". Please keep your paws off this file as it tracks the running process ID.
