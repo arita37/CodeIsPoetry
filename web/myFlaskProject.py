@@ -51,9 +51,17 @@ def main():
     elif sys.argv[1] == "start":
         print("Starting myFlaskProject")
 
-        # Start server on a fork (only works on unixes)
+        # Make sure there is no server started:
+        if os.path.exists(static_path(["..", "pid"])):
+            print("The server seems to already be up and running!",
+                  "\nIf this is a mistake, please remove the file named 'pid'",
+                  "and try again")
+            sys.exit(1)
+
+        # Unixes will start server on a fork:
         if hasattr(os, "fork"):
             pid = os.fork() 
+        # Windows can't, so the application will idle in the foreground: 
         else:
             print("Server started. Please do not close this window!")
             pid = False
