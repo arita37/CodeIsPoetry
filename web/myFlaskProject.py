@@ -14,14 +14,11 @@ except:
 
 import data
 
-def static_path(path=False): 
+def static_path(path=""): 
     """ Returns an absolute path to a file/folder in the project directory """
-    if path:
-        if type(path) == str:
-            return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
-        elif type(path) == list:
-            return os.path.join(os.path.dirname(os.path.abspath(__file__)),*path)
-    return os.path.dirname(os.path.abspath(__file__))
+    if type(path) == list:
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)),*path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
 
 def data_json(cache=[None, 0]): 
     """ Lazy loading data.json """
@@ -43,10 +40,12 @@ def main():
     """ Main function, only runs when this file is executed """
     def usage(): print("Usage: %s start|stop" % sys.argv[0])
     
-    if len(sys.argv) != 2:
+    """ If not windows, we want 1 argument: """
+    if len(sys.argv) != 2 and os.name != "nt":
         usage()
 
-    elif sys.argv[1] == "start":
+    """ If argument is "start" or OS is Windows: """
+    elif sys.argv[1] == "start" or os.name == "nt":
         print("Starting myFlaskProject")
 
         # Start server on a fork (only works on unixes)
@@ -65,6 +64,7 @@ def main():
         with open(static_path(["..", "pid"]), 'w') as f:
             print("%d" % pid, file=f)
 
+    """ If argument is stop: """
     elif sys.argv[1] == "stop":
         print("Killing myFlaskProject")
         with open(static_path(["..", "log"]), 'a') as f:
