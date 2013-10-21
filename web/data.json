@@ -2,7 +2,8 @@
   {
       "project_no": 1,
   	"start_date": "2013-09-01",
-  	"project_name": "Portföljsida för olika studieprojekt",
+  	"end_date": "2013-10-23",
+"project_name": "Portföljsida för olika studieprojekt",
     "short_description": "Vår första hemsida, gjord som Python app med Jinja2 templates på Flask webserver",
     "long_description": "Genom det här projektet har vi lärt oss att utveckla enkla hemsidor med hjälp av Python och Jinja som använder data från en .json fil istället för en extern databas.",
     "small_image": "images/1_small.jpg",
@@ -19,6 +20,7 @@
     {
   	"project_no": 2,
   	"start_date": "2013-10-01",
+	"end_date": "2013-10-15",
   	"project_name": "Sokoban",
     "short_description": "Enkel spel i Pythonmiljö",
     "long_description": "Övning i att skriva en interaktiv applikation i Pythonmiljö. Ett enkelt spel där användaren måste putta alla lådor till sina rätta platser.",

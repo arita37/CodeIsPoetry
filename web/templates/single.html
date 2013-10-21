@@ -8,6 +8,7 @@
 	</div>
 	<h2>{{ data.project_name }}</h2>
 	<div class="intro">{{ data.short_description }}</div>
+	<p><b>Utfört:</b> {{ data['start_date'] }} - {{ data['end_date'] }}</p>
 	<p><b>Teknologi: </b>{% for tech in data.techniques_used %}{% if loop.last %} {{ tech|title }} {% else %} {{ tech|title }}, {% endif %} {% endfor %}</p>
 	<div class="description"><b>Kurs: </b>{{ data['course_id'] }} {{ data['course_name'] }}. <b>Studiepoäng:</b> {{ data['course_points'] }}. <b>Gruppstorlek:</b> {{ data['group_size'] }}.</div>
 	<div class="text"> 
