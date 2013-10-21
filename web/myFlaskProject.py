@@ -41,11 +41,13 @@ def main_json(cache=[None, 0]):
 
 def main():
     """ Main function, only runs when this file is executed """
-    def usage(): print("Usage: %s start|stop" % sys.argv[0])
+    def usage(): print("Usage: %s start|stop [port]" % sys.argv[0])
     
-    if len(sys.argv) != 2:
+    # """ If OS is not windows, we want 1 argument: """
+    if len(sys.argv) not in [2, 3]:
         usage()
 
+    #  """ If argument is "start" or OS is Windows: """
     elif sys.argv[1] == "start":
         print("Starting myFlaskProject")
 
@@ -65,6 +67,7 @@ def main():
         with open(static_path(["..", "pid"]), 'w') as f:
             print("%d" % pid, file=f)
 
+    # """ If argument is stop: """
     elif sys.argv[1] == "stop":
         print("Killing myFlaskProject")
         with open(static_path(["..", "log"]), 'a') as f:
