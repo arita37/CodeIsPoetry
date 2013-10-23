@@ -12,7 +12,6 @@ Installation
 There are two dependencies for myFlaskProject: Python (version 3.3.2 or higher) and Flask.
 Since we recommend running Flask inside virtualenv, we've included it in our instructions.
 ### Windows
-**NOTE: Support for the Windows operating systems is experimental at best! Please use Mac OS X or Linux instead!**
 **Step1: Installing Python and VirtualEnv**
 > Download and install Python from this [link](http://python.org/download/). Please install it to C:\Python33 as is the default.
 > Download and extract VirtualEnv, which can be found here: [link](https://pypi.python.org/pypi/virtualenv)
@@ -32,7 +31,7 @@ Since we recommend running Flask inside virtualenv, we've included it in our ins
 > `pip install flask`
 
 ### Mac OS X
-*Step1: Installing Python and VirtualEnv**
+**Step1: Installing Python and VirtualEnv**
 > Download and install Python from this [link](http://python.org/download/).
 > Download and extract VirtualEnv, which can be found here: [link](https://pypi.python.org/pypi/virtualenv)
 > Open up a terminal (if you have not already) and navigate to the folder where you extracted VirtualEnv
@@ -74,8 +73,12 @@ Since we recommend running Flask inside virtualenv, we've included it in our ins
 ### Starting/Stopping the webserver
 In order to start or stop the webserver you will need to open up a terminal and nagivate to the folder where you installed myFlaskProject.
 Here you can type in one of the following commands and then press enter:
-`web/myFlaskProject.py start`
-`web/myFlaskProject.py stop` (not available to windows)
+`python web/myFlaskProject.py start`
+`python web/myFlaskProject.py stop` (not available to windows)
+
+It is possible to choose a different port than the standard (port 80) by adding the port number after start. I.e:
+`python web/myFlaskProject.py start 5000`
+Which will start the server on port 80
 
 If you receive the following error message *Unable to import flask. Did you maybe forget to initialize venv?* you need to run this command and then try again:
 `. venv/bin/activate` (or `venv\scripts\activate` if using Windows)

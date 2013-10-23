@@ -33,7 +33,7 @@ def load(filename):
         All the project data from the read file, or None.
     """
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf8') as f:
             return json.load(f)
     except:
         return None
