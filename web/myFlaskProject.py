@@ -160,12 +160,9 @@ def initialize_flask():
         
     @app.route("/search", methods=['POST'])
     def search_results():
-        """
-        Sanitizes the search string, 
-        counts objects in search results and returns search results page. 
-        """
+        """ Counts objects in search results and returns search results page  """
         appdata = data_json()
-        sanitized_search = re.sub('[^a-zA-Z0-9\.]', "", request.form['key'])
+        query =  request.form['key']
         techs = request.form.getlist('techfield')
         technologies = techs if techs else ""
         fields = request.form.getlist('search_field')
@@ -175,14 +172,14 @@ def initialize_flask():
             
         search_function = data.search(appdata, sort_order=sort_order, 
                                         sort_by=sortby, techniques=technologies, 
-                                        search=sanitized_search,
+                                        search=query,
                                         search_fields=search_fields)
         results_count = len(search_function)
         print("Search details: sort_order=%s, sort_by=%s, techniques=%s, \
 search=%s, search_fields=%s" % (sort_order, sortby, str(technologies),
-                                    sanitized_search, str(search_fields)))
+                                    query, str(search_fields)))
         return render_template("search.html", data=search_function, 
-                                count=results_count, term=sanitized_search, 
+                                count=results_count, term=query, 
                                 fields=fields, techs=techs, sort=sort_order, 
                                 sortby=sortby, info=main_json())
         
