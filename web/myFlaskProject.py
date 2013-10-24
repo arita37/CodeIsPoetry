@@ -46,9 +46,20 @@ def server_start():
         """ The function to start the flask server, 
             this needs to be started by server_start() and not by itself """
 
-        sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
-        print("Start signal received")
-        initialize_flask().run(host="0.0.0.0", port=port)
+        # Save old stderr in case of error
+        oldstderr = sys.stderr
+        try:
+            # Reroute stdout and stderr to logfile
+            sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
+            print("Start signal received")
+            # Create new flask instance and run it
+            initialize_flask().run(host="0.0.0.0", port=port)
+        except BaseException as e:
+            # On error, write it to stderr and remove the pid. Then raise
+            print("Error: %s" % str(e), file=oldstderr)
+            if os.path.exists(static_path(["..", "pid"])):
+                os.remove(static_path(["..", "pid"]))
+            raise
 
     print("Starting myFlaskProject")
 
