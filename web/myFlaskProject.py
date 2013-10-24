@@ -158,8 +158,10 @@ def initialize_flask():
     def project_single(id):
         """ Returns a page with description for a single project """
         single_project = data.get_project(data_json(), id)
-        return render_template("single.html", data=single_project,
-                                info=main_json())
+        if single_project is not None:
+            return render_template("single.html", data=single_project,
+                                    info=main_json())
+        else: return page_not_found(404)
 
     @app.route("/searchform")
     def search_form():
@@ -173,7 +175,7 @@ def initialize_flask():
     def search_results():
         """ Counts objects in search results and returns search results page  """
         appdata = data_json()
-        query =  request.form['key']
+        query = request.form['key']
         techs = request.form.getlist('techfield')
         technologies = techs if techs else ""
         fields = request.form.getlist('search_field')
