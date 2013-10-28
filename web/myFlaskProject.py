@@ -104,13 +104,16 @@ def main():
     """ Main function, only runs when this file is executed """
     def usage(): print("Usage: %s start|stop [port]" % sys.argv[0])
     
-    # If OS is not windows, we want 1/2 arguments - otherwise print usage
-    if len(sys.argv) not in [2, 3] and os.name != "nt": usage()
-    # If argument is "start" or OS is Windows - start server
-    elif sys.argv[1] == "start" or os.name == "nt": server_start()
-    # If argument is stop and OS is not windows - stop server
+    # Windows: --start automatically
+    if os.name == "nt":
+        server_start()
+
+    # Posix:
+    # ./myFlaskProject start/stop [port]
+    elif len(sys.argv) not in [2, 3]: usage()
+    elif sys.argv[1] == "start": server_start()
     elif sys.argv[1] == "stop": server_stop()
-    # Otherwise - print usage
+    
     else: usage()
 
 
