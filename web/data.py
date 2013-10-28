@@ -95,9 +95,10 @@ def search(db, sort_by='start_date', sort_order='desc',
 
     # Search fields:
     def local_find(search_string, string_to_search_in):
-        if type(string_to_search_in) is str:
-            if search_string.lower() in string_to_search_in.lower():
-                return True
+        if not type(string_to_search_in) is str:
+            string_to_search_in = str(string_to_search_in)
+        if search_string.lower() in string_to_search_in.lower():
+            return True
         return False
 
     if search is not None:

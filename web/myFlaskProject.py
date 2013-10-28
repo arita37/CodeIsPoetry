@@ -46,9 +46,20 @@ def server_start():
         """ The function to start the flask server, 
             this needs to be started by server_start() and not by itself """
 
-        sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
-        print("Start signal received")
-        initialize_flask().run(host="0.0.0.0", port=port)
+        # Save old stderr in case of error
+        oldstderr = sys.stderr
+        try:
+            # Reroute stdout and stderr to logfile
+            sys.stdout = sys.stderr = open(static_path(["..", "log"]), 'a')
+            print("Start signal received")
+            # Create new flask instance and run it
+            initialize_flask().run(host="0.0.0.0", port=port)
+        except BaseException as e:
+            # On error, write it to stderr and remove the pid. Then raise
+            print("Error: %s" % str(e), file=oldstderr)
+            if os.path.exists(static_path(["..", "pid"])):
+                os.remove(static_path(["..", "pid"]))
+            raise
 
     print("Starting myFlaskProject")
 
@@ -150,8 +161,10 @@ def initialize_flask():
     def project_single(id):
         """ Returns a page with description for a single project """
         single_project = data.get_project(data_json(), id)
-        return render_template("single.html", data=single_project,
-                                info=main_json())
+        if single_project is not None:
+            return render_template("single.html", data=single_project,
+                                    info=main_json())
+        else: return page_not_found(404)
 
     @app.route("/searchform")
     def search_form():
@@ -163,12 +176,9 @@ def initialize_flask():
         
     @app.route("/search", methods=['POST'])
     def search_results():
-        """
-        Sanitizes the search string, 
-        counts objects in search results and returns search results page. 
-        """
+        """ Counts objects in search results and returns search results page  """
         appdata = data_json()
-        sanitized_search = re.sub('[^a-zA-Z0-9\.]', "", request.form['key'])
+        query = request.form['key']
         techs = request.form.getlist('techfield')
         technologies = techs if techs else ""
         fields = request.form.getlist('search_field')
@@ -178,14 +188,14 @@ def initialize_flask():
             
         search_function = data.search(appdata, sort_order=sort_order, 
                                         sort_by=sortby, techniques=technologies, 
-                                        search=sanitized_search,
+                                        search=query,
                                         search_fields=search_fields)
         results_count = len(search_function)
         print("Search details: sort_order=%s, sort_by=%s, techniques=%s, \
 search=%s, search_fields=%s" % (sort_order, sortby, str(technologies),
-                                    sanitized_search, str(search_fields)))
+                                    query, str(search_fields)))
         return render_template("search.html", data=search_function, 
-                                count=results_count, term=sanitized_search, 
+                                count=results_count, term=query, 
                                 fields=fields, techs=techs, sort=sort_order, 
                                 sortby=sortby, info=main_json())
         
